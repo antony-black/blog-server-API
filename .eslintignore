@@ -1,0 +1,43 @@
+# Build directories
+dist/
+build/
+out/
+
+# Node modules
+node_modules/
+
+# Configuration files
+*.config.js
+*.config.cjs
+*.config.ts
+
+# Ignore test files (if desired)
+test/
+tests/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+
+# TypeScript declaration files
+*.d.ts
+
+# Environment files
+.env
+.env.*
+
+# IDE directories and files
+.idea/
+.vscode/
+*.swp
+
+# Logs
+logs/
+*.log
+
+# Coverage output
+coverage/
+
+# Temporary files
+temp/
+tmp/

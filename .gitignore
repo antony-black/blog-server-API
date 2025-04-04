@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+dist/
+build/
+npm-debug.log*
+
+# Logs
+logs
+*.log
+*.log.*
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Other
+.env
+*.bak
+*.tmp
