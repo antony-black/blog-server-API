@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "eslint ./src --ext .js",
+    "lint:fix": "eslint ./src --ext .js --fix",
+    "format": "prettier --write ./src"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +16,6 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/node": "^22.14.0",
-    "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "@typescript-eslint/parser": "^8.29.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
@@ -22,8 +24,7 @@
     "globals": "^15.15.0",
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3",
-    "prisma": "^6.5.0",
-    "typescript": "^5.8.2"
+    "prisma": "^6.5.0"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
