@@ -3,6 +3,7 @@ const { UserService } = require("../services");
 class UserController {
   async registration(req, res, next) {
     try {
+      // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
       const { name, email, password } = req.body;
       const user = await UserService.registration(name, email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -15,7 +16,8 @@ class UserController {
 
   async login(req, res, next) {
     try {
-      const {email, password } = req.body;
+      // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
+      const { email, password } = req.body;
       const user = await UserService.login(email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       res.json(user);
@@ -27,7 +29,7 @@ class UserController {
 
   async getById(req, res, next) {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
 
       const user = await UserService.getById(id);
 
@@ -45,11 +47,11 @@ class UserController {
 
       if (data.dateOfBirth) {
         const parsedDate = new Date(data.dateOfBirth);
-  
+
         if (isNaN(parsedDate)) {
           return res.status(400).json({ error: "Invalid date format for dateOfBirth. Use YYYY-MM-DD." });
         }
-  
+
         data.dateOfBirth = parsedDate;
       }
 

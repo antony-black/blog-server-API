@@ -1,5 +1,8 @@
 const { prisma } = require("../../prisma/prsma-client");
 const bcrypt = require("bcryptjs");
+const jdenticon = require("jdenticon");
+const path = require("path");
+const fs = require("fs");
 const TokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 
@@ -16,11 +19,17 @@ class UserService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const avatarImage = jdenticon.toPng(name, 200);
+    const avatarName = `${name}_${Date.now()}.png`;
+    const avatarPath = path.join(__dirname, "../uploads", avatarName);
+    fs.writeFileSync(avatarPath, avatarImage);
+
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
+        avatarUrl: `/uploads/${avatarName}`,
       },
     });
 
