@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 
 if (!fs.existsSync("src/uploads")) {
   fs.mkdirSync("src/uploads");
