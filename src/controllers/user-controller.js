@@ -29,9 +29,11 @@ class UserController {
 
   async getById(req, res, next) {
     try {
+      console.log("Authenticated user:", req.user);
       const { id } = req.params;
+      const userId = req.user?.id;
 
-      const user = await UserService.getById(id);
+      const user = await UserService.getById(id, userId);
 
       res.json(user);
     } catch (error) {
@@ -42,20 +44,16 @@ class UserController {
 
   async update(req, res, next) {
     try {
+      console.log("Authenticated user:", req.user);
       const data = req.body;
+      const file = req.file;
       const { id } = req.params;
 
-      if (data.dateOfBirth) {
-        const parsedDate = new Date(data.dateOfBirth);
-
-        if (isNaN(parsedDate)) {
-          return res.status(400).json({ error: "Invalid date format for dateOfBirth. Use YYYY-MM-DD." });
-        }
-
-        data.dateOfBirth = parsedDate;
+      if (id !== req.user.id) {
+        return res.status(403).json({ error: "Unauthorized to update this user." });
       }
 
-      const user = await UserService.update(data, id);
+      const user = await UserService.update(data, file, id);
 
       res.json(user);
     } catch (error) {
@@ -66,6 +64,7 @@ class UserController {
 
   async current(req, res, next) {
     try {
+      console.log("Authenticated user:", req.user);
       await UserService.current(req, res);
     } catch (error) {
       console.error("UserController/currentUser: ", error);

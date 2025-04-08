@@ -58,25 +58,92 @@ class UserService {
     return { ...tokens, userData };
   }
 
-  async getById(id) {
+  async getById(id, userId) {
     const user = await prisma.user.findUnique({
       where: { id },
+      include: {
+        followers: true,
+        following: true,
+      },
     });
 
-    return user;
-  }
-
-  async update(data, id) {
-    const user = await prisma.user.update({
-      where: { id },
-      data,
+    const isFollowing = await prisma.follows.findFirst({
+      where: {
+        AND: [{ followerId: userId, followingId: id }],
+      },
     });
 
-    return user;
+    const publicUserData = new UserDto(user);
+
+    return {
+      ...publicUserData,
+      isFollowing: Boolean(isFollowing),
+    };
   }
+
+async update(data, file, id) {
+  const updates = {};
+
+  // Handle safe fields
+  if (data.name) updates.name = data.name;
+  if (data.email) {
+    const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
+    if (existingUser && existingUser.id !== id) {
+      throw new Error(`Email ${data.email} is already in use.`);
+    }
+    updates.email = data.email;
+  }
+  if (data.bio) updates.bio = data.bio;
+  if (data.location) updates.location = data.location;
+
+  // Date validation
+  if (data.dateOfBirth) {
+    const parsedDate = new Date(data.dateOfBirth);
+    if (isNaN(parsedDate)) {
+      throw new Error("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
+    }
+    updates.dateOfBirth = parsedDate;
+  }
+
+  // Handle file upload
+  if (file && file.path) {
+    updates.avatarUrl = `/${file.path}`;
+  }
+
+  // Final update
+  const user = await prisma.user.update({
+    where: { id },
+    data: updates,
+  });
+
+  const publicUserData = new UserDto(user);
+
+  return publicUserData;
+}
+
 
   async current(req, res) {
-    res.status(200).json(req.user);
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      include: {
+        followers: {
+          include: {
+            follower: true,
+          },
+        },
+        following: {
+          include: {
+            following: true,
+          },
+        },
+      },
+    });
+
+    const publicUserData = new UserDto(user);
+
+    res.json(publicUserData);
   }
 }
 

@@ -1,6 +1,7 @@
 const { prisma } = require("../../prisma/prsma-client");
 const ApiError = require("../exceptions/api-error");
 const { TokenService } = require("../services");
+const UserDto = require('../dtos/user-dto');
 
 module.exports = async function (req, res, next) {
   try {
@@ -23,7 +24,13 @@ module.exports = async function (req, res, next) {
       where: {id : userData.id}
     });
 
-    req.user = user;
+    if (!user) {
+      return next(ApiError.UnautorizedError());
+    }
+
+    const publicUserData = new UserDto(user);
+
+    req.user = publicUserData;
 
     next();
   } catch (error) {

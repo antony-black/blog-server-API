@@ -24,8 +24,8 @@ router.post("/test", (req, res) => {
 
 router.post("/registration", UserController.registration);
 router.post("/login", UserController.login);
-router.put("/update/:id", UserController.update);
+router.put("/update/:id", authMiddleware, UserController.update);
 router.get("/current", authMiddleware, UserController.current);
-router.get("/:id", UserController.getById);
+router.get("/:id", authMiddleware, UserController.getById);
 
 module.exports = router;
