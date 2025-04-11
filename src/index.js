@@ -23,7 +23,7 @@ app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/like", likeRouter);
-app.use("/api/follow", followRouter);
+app.use("/api/followers", followRouter);
 app.use(errorMiddleWare);
 
 if (!fs.existsSync("src/uploads")) {

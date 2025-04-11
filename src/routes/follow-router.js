@@ -4,7 +4,7 @@ const router = express.Router();
 const { FollowController } = require("../controllers");
 const authMiddleware = require("../middlewares/auth-middleware");
 
-router.post("/", authMiddleware, FollowController.create);
-router.delete("/unfollow/:id", authMiddleware, FollowController.remove);
+router.post("/follow", authMiddleware, FollowController.follow);
+router.delete("/unfollow/:id", authMiddleware, FollowController.unfollow);
 
 module.exports = router;
