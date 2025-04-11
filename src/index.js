@@ -6,6 +6,7 @@ const fs = require("fs");
 const userRouter = require("./routes/user-router");
 const postRouter = require("./routes/post-router");
 const commentRouter = require("./routes/comment-router");
+const likeRouter = require("./routes/like-router");
 const errorMiddleWare = require("./middlewares/error-middleware");
 
 const PORT = process.env.PORT || 3001;
@@ -20,6 +21,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
+app.use("/api/like", likeRouter);
 app.use(errorMiddleWare);
 
 if (!fs.existsSync("src/uploads")) {
