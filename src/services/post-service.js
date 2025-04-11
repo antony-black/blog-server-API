@@ -71,7 +71,7 @@ class PostService {
     }
 
     if (post.authorId !== userId) {
-      throw ApiError.Forbidden("You have access to remove only yours posts.");
+      throw ApiError.Forbidden("You have access to remove only your posts.");
     }
 
     const postData = await prisma.$transaction([

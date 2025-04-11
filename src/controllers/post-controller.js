@@ -58,9 +58,9 @@ class PostController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      const removedPost = await PostService.remove(id, userId);
+      const removedPostData = await PostService.remove(id, userId);
 
-      res.json(removedPost);
+      res.json(removedPostData);
     } catch (error) {
       next(error);
     }
