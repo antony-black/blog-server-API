@@ -31,7 +31,7 @@ class UserController {
     try {
       console.log("Authenticated user:", req.user);
       const { id } = req.params;
-      const userId = req.user?.id;
+      const userId = req.user.id;
 
       const user = await UserService.getById(id, userId);
 
@@ -71,6 +71,8 @@ class UserController {
       next(error);
     }
   }
+
+  // async remove(req, res, next) {}
 }
 
 module.exports = new UserController();

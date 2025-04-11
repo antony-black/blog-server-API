@@ -16,12 +16,6 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage: storage });
 
-
-router.post("/test", (req, res) => {
-  res.send("Test route works!");
-});
-
-
 router.post("/registration", UserController.registration);
 router.post("/login", UserController.login);
 router.put("/update/:id", authMiddleware, UserController.update);
