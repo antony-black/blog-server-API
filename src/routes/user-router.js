@@ -5,7 +5,7 @@ const multer = require("multer");
 const {UserController} = require("../controllers");
 const authMiddleware = require('../middlewares/auth-middleware');
 
-const uploadDestination = "uploads";
+const uploadDestination = "src/uploads";
 
 const storage = multer.diskStorage({
   destination: uploadDestination,
