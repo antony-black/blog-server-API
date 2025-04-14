@@ -3,6 +3,10 @@ const ApiError = require("../exceptions/api-error");
 
 class PostService {
   async create(content, authorId) {
+    if (content.length > 0){
+      throw ApiError.BadRequest("The content not found. All fields are required.")
+    }
+    
     const post = await prisma.post.create({
       data: {
         content,

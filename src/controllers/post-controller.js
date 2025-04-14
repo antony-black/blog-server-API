@@ -6,15 +6,10 @@ class PostController {
       const { content } = req.body;
       const authorId = req.user.id;
 
-      if (!content) {
-        return res.status(400).json({ error: "PostController/create: all fields are required!" });
-      }
-
       const post = await PostService.create(content, authorId);
 
       res.json(post);
     } catch (error) {
-      console.error("PostController/create: ", error);
       next(error);
     }
   }
@@ -27,7 +22,6 @@ class PostController {
 
       res.json(posts);
     } catch (error) {
-      console.error("PostController/getAll: ", error);
       next(error);
     }
   }
