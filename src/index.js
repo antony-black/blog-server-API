@@ -3,11 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const fs = require("fs");
-const userRouter = require("./routes/user-router");
-const postRouter = require("./routes/post-router");
-const commentRouter = require("./routes/comment-router");
-const likeRouter = require("./routes/like-router");
-const followRouter = require("./routes/follow-router");
+
+const { userRouter, postRouter, commentRouter, likeRouter, followRouter } = require("./routes");
 const errorMiddleWare = require("./middlewares/error-middleware");
 
 const PORT = process.env.PORT || 3001;
