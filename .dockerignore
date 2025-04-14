@@ -1,0 +1,43 @@
+# Node.js dependencies
+node_modules
+client/node_modules
+
+# Package manager files
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+client/build
+
+# Logs
+logs/
+*.log
+
+# Git
+.git
+.gitignore
+
+# Prisma (migrations, if not needed in container)
+prisma/migrations/
+
+# Env files (optional – include only if you’re copying them manually in Dockerfile)
+.env
+.env.*
+
+# Testing
+tests/
+test/
+__tests__/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker config itself
+Dockerfile
+.dockerignore
