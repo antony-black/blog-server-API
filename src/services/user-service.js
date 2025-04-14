@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const TokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
+const ApiError = require("../exceptions/api-error");
 
 class UserService {
   async registration(name, email, password) {
@@ -13,7 +14,7 @@ class UserService {
     });
 
     if (user) {
-      throw new Error("User with this email has already existed. Please, login.");
+      throw ApiError.BadRequest("User with this email has already existed. Please, login.");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -48,7 +49,7 @@ class UserService {
     const hasTheSamePassword = await bcrypt.compare(password, user.password);
 
     if (!user || !hasTheSamePassword) {
-      throw new Error("Wrong email or password.");
+      throw ApiError.BadRequest("Wrong email or password.");
     }
 
     const userData = new UserDto(user);
@@ -66,6 +67,10 @@ class UserService {
         following: true,
       },
     });
+
+    if (!user) {
+      throw ApiError.NotFound("No such user found. Please sign up.");
+    }
 
     const isFollowing = await prisma.follows.findFirst({
       where: {
@@ -89,7 +94,7 @@ async update(data, file, id) {
   if (data.email) {
     const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
     if (existingUser && existingUser.id !== id) {
-      throw new Error(`Email ${data.email} is already in use.`);
+      throw ApiError.BadRequest(`Email ${data.email} is already in use.`);
     }
     updates.email = data.email;
   }
@@ -100,7 +105,7 @@ async update(data, file, id) {
   if (data.dateOfBirth) {
     const parsedDate = new Date(data.dateOfBirth);
     if (isNaN(parsedDate)) {
-      throw new Error("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
+      throw ApiError.BadRequest("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
     }
     updates.dateOfBirth = parsedDate;
   }
@@ -140,6 +145,10 @@ async update(data, file, id) {
         },
       },
     });
+
+    if (!user) {
+      throw ApiError.UnautorizedError();
+    }
 
     const publicUserData = new UserDto(user);
 

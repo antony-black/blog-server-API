@@ -9,7 +9,6 @@ class UserController {
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       res.json(user);
     } catch (error) {
-      console.error("UserController/login: ", error);
       next(error);
     }
   }
@@ -22,7 +21,6 @@ class UserController {
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       res.json(user);
     } catch (error) {
-      console.error("UserController/login: ", error);
       next(error);
     }
   }
@@ -37,7 +35,6 @@ class UserController {
 
       res.json(user);
     } catch (error) {
-      console.error("UserController/getUserById: ", error);
       next(error);
     }
   }
@@ -49,15 +46,10 @@ class UserController {
       const file = req.file;
       const { id } = req.params;
 
-      if (id !== req.user.id) {
-        return res.status(403).json({ error: "Unauthorized to update this user." });
-      }
-
       const user = await UserService.update(data, file, id);
 
       res.json(user);
     } catch (error) {
-      console.error("UserController/updateUser: ", error);
       next(error);
     }
   }
@@ -67,7 +59,6 @@ class UserController {
       console.log("Authenticated user:", req.user);
       await UserService.current(req, res);
     } catch (error) {
-      console.error("UserController/currentUser: ", error);
       next(error);
     }
   }
