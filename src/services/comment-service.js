@@ -3,6 +3,10 @@ const ApiError = require("../exceptions/api-error");
 
 class CommentService {
   async create(postId, content, userId) {
+    if (!content || content.trim().length === 0) {
+      throw ApiError.BadRequest("Content is required.");
+    }
+
     const comment = await prisma.comment.create({
       data: {
         content,
