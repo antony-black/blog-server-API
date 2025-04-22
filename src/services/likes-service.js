@@ -1,7 +1,7 @@
 const { prisma } = require("../../prisma/prsma-client");
 const ApiError = require("../exceptions/api-error");
 
-class LikeService {
+class LikesService {
   async add(postId, userId) {
     const isLikeAdded = await prisma.like.findFirst({
       where: { postId, userId },
@@ -35,4 +35,4 @@ class LikeService {
   }
 }
 
-module.exports = new LikeService();
+module.exports = new LikesService();

@@ -1,7 +1,7 @@
 const { prisma } = require("../../prisma/prsma-client");
 const ApiError = require("../exceptions/api-error");
 
-class FollowService {
+class FollowsService {
   async follow(followingId, userId) {
     if (followingId === userId) {
       throw ApiError.BadRequest("You can't follow yourself.");
@@ -52,4 +52,4 @@ class FollowService {
   }
 }
 
-module.exports = new FollowService();
+module.exports = new FollowsService();

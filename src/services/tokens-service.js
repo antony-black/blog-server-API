@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-class TokenService {
+class TokensService {
   generateTokens(payload) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '20d' });
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: '30d' });
@@ -55,4 +55,4 @@ class TokenService {
   }
 }
 
-module.exports = new TokenService();
+module.exports = new TokensService();

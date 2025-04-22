@@ -1,12 +1,12 @@
-const { PostService } = require("../services");
+const { PostsService } = require("../services");
 
-class PostController {
+class PostsController {
   async create(req, res, next) {
     try {
       const { content } = req.body;
       const authorId = req.user.id;
 
-      const post = await PostService.create(content, authorId);
+      const post = await PostsService.create(content, authorId);
 
       res.json(post);
     } catch (error) {
@@ -18,7 +18,7 @@ class PostController {
     try {
       const authorId = req.user.id;
 
-      const posts = await PostService.getAll(authorId);
+      const posts = await PostsService.getAll(authorId);
 
       res.json(posts);
     } catch (error) {
@@ -61,4 +61,4 @@ class PostController {
   }
 }
 
-module.exports = new PostController();
+module.exports = new PostsController();

@@ -1,7 +1,7 @@
 const { prisma } = require("../../prisma/prsma-client");
 const ApiError = require("../exceptions/api-error");
 
-class PostService {
+class PostsService {
   async create(content, authorId) {
     if (!content || content.trim().length === 0) {
       throw ApiError.BadRequest("Content is required.");
@@ -88,4 +88,4 @@ class PostService {
   }
 }
 
-module.exports = new PostService();
+module.exports = new PostsService();

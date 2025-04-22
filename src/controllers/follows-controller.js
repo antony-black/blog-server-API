@@ -1,12 +1,12 @@
-const FollowService = require("../services/follow-service");
+const FollowsService = require("../services/follows-service");
 
-class FollowController {
+class FollowsController {
   async follow(req, res, next) {
     try {
       const { followingId } = req.body;
       const userId = req.user.id;
 
-      const followingData = await FollowService.follow(followingId, userId);
+      const followingData = await FollowsService.follow(followingId, userId);
 
       res.json(followingData);
     } catch (error) {
@@ -19,7 +19,7 @@ class FollowController {
       const followingId = req.params.followingId;
       const userId = req.user.id;
 
-      const unfollowingData = await FollowService.unfollow(followingId, userId);
+      const unfollowingData = await FollowsService.unfollow(followingId, userId);
 
       res.json(unfollowingData);
     } catch (error) {
@@ -28,4 +28,4 @@ class FollowController {
   }
 }
 
-module.exports = new FollowController();
+module.exports = new FollowsController();

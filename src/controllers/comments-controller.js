@@ -1,12 +1,12 @@
-const { CommentService } = require("../services");
+const { CommentsService } = require("../services");
 
-class CommentController {
+class CommentsController {
   async create(req, res, next) {
     try {
       const { postId, content } = req.body;
       const userId = req.user.id;
 
-      const comment = await CommentService.create(postId, content, userId);
+      const comment = await CommentsService.create(postId, content, userId);
 
       res.json(comment);
     } catch (error) {
@@ -26,7 +26,7 @@ class CommentController {
       const { id } = req.params;
       const authorId = req.user.id;
 
-      const removedCommentData = await CommentService.remove(id, authorId);
+      const removedCommentData = await CommentsService.remove(id, authorId);
 
       res.json(removedCommentData);
     } catch (error) {
@@ -35,4 +35,4 @@ class CommentController {
   }
 }
 
-module.exports = new CommentController();
+module.exports = new CommentsController();

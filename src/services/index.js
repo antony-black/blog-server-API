@@ -1,13 +1,13 @@
-const UserService = require("./user-service");
-const TokenService = require("./token-service");
-const PostService = require("./post-service");
-const CommentService = require("./comment-service");
-const LikeService = require("./like-service");
+const UsersService = require("./users-service");
+const TokensService = require("./tokens-service");
+const PostsService = require("./posts-service");
+const CommentsService = require("./comments-service");
+const LikesService = require("./likes-service");
 
 module.exports = {
-  UserService,
-  TokenService,
-  PostService,
-  CommentService,
-  LikeService
+  UsersService,
+  TokensService,
+  PostsService,
+  CommentsService,
+  LikesService
 };

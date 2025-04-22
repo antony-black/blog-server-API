@@ -1,7 +1,7 @@
 const { prisma } = require("../../prisma/prsma-client");
 const ApiError = require("../exceptions/api-error");
 
-class CommentService {
+class CommentsService {
   async create(postId, content, userId) {
     if (!content || content.trim().length === 0) {
       throw ApiError.BadRequest("Content is required.");
@@ -44,4 +44,4 @@ class CommentService {
   }
 }
 
-module.exports = new CommentService();
+module.exports = new CommentsService();

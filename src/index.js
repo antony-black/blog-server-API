@@ -4,23 +4,23 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const fs = require("fs");
 
-const { userRouter, postRouter, commentRouter, likeRouter, followRouter } = require("./routes");
+const { usersRouter, postsRouter, commentsRouter, likesRouter, followsRouter } = require("./routes");
 const errorMiddleWare = require("./middlewares/error-middleware");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
 app.use("/uploads", express.static("src/uploads"));
-app.use("/api/user", userRouter);
-app.use("/api/post", postRouter);
-app.use("/api/comment", commentRouter);
-app.use("/api/like", likeRouter);
-app.use("/api/followers", followRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/posts", postsRouter);
+app.use("/api/comments", commentsRouter);
+app.use("/api/likes", likesRouter);
+app.use("/api/followers", followsRouter);
 app.use(errorMiddleWare);
 
 if (!fs.existsSync("src/uploads")) {

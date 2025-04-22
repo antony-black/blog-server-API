@@ -1,11 +1,11 @@
-const { UserService } = require("../services");
+const { UsersService } = require("../services");
 
-class UserController {
+class UsersController {
   async registration(req, res, next) {
     try {
       // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
       const { name, email, password } = req.body;
-      const user = await UserService.registration(name, email, password);
+      const user = await UsersService.registration(name, email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       res.json(user);
     } catch (error) {
@@ -17,7 +17,7 @@ class UserController {
     try {
       // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
       const { email, password } = req.body;
-      const user = await UserService.login(email, password);
+      const user = await UsersService.login(email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       res.json(user);
     } catch (error) {
@@ -31,7 +31,7 @@ class UserController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      const user = await UserService.getById(id, userId);
+      const user = await UsersService.getById(id, userId);
 
       res.json(user);
     } catch (error) {
@@ -46,7 +46,7 @@ class UserController {
       const file = req.file;
       const { id } = req.params;
 
-      const user = await UserService.update(data, file, id);
+      const user = await UsersService.update(data, file, id);
 
       res.json(user);
     } catch (error) {
@@ -57,7 +57,7 @@ class UserController {
   async current(req, res, next) {
     try {
       console.log("Authenticated user:", req.user);
-      await UserService.current(req, res);
+      await UsersService.current(req, res);
     } catch (error) {
       next(error);
     }
@@ -66,4 +66,4 @@ class UserController {
   // async remove(req, res, next) {}
 }
 
-module.exports = new UserController();
+module.exports = new UsersController();

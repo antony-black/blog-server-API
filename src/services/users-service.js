@@ -3,11 +3,11 @@ const bcrypt = require("bcryptjs");
 const jdenticon = require("jdenticon");
 const path = require("path");
 const fs = require("fs");
-const TokenService = require("./token-service");
+const TokensService = require("./tokens-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error");
 
-class UserService {
+class UsersService {
   async registration(name, email, password) {
     const user = await prisma.user.findFirst({
       where: { email },
@@ -36,7 +36,7 @@ class UserService {
 
     const userData = new UserDto(newUser);
 
-    const tokens = TokenService.generateTokens({ ...userData });
+    const tokens = TokensService.generateTokens({ ...userData });
 
     return { ...tokens, userData };
   }
@@ -54,7 +54,7 @@ class UserService {
 
     const userData = new UserDto(user);
 
-    const tokens = TokenService.generateTokens({ ...userData });
+    const tokens = TokensService.generateTokens({ ...userData });
 
     return { ...tokens, userData };
   }
@@ -156,4 +156,4 @@ async update(data, file, id) {
   }
 }
 
-module.exports = new UserService();
+module.exports = new UsersService();
