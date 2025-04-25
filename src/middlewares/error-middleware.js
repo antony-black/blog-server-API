@@ -10,6 +10,8 @@ module.exports = function (err, req, res, next) {
       ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
     });
   }
+  
+  console.error("Error:", err);
 
   return res.status(500).json({
     message: "Unexpected error occurred",

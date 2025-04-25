@@ -7,7 +7,7 @@ const fs = require("fs");
 const { usersRouter, postsRouter, commentsRouter, likesRouter, followsRouter } = require("./routes");
 const errorMiddleWare = require("./middlewares/error-middleware");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 

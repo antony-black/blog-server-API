@@ -1,4 +1,4 @@
-const { prisma } = require("../../prisma/prsma-client");
+const { prisma } = require("../../prisma/prisma-client");
 const ApiError = require("../exceptions/api-error");
 
 class PostsService {
