@@ -31,7 +31,7 @@ class PostsController {
       const { id } = req.params;
       const authorId = req.user.id;
 
-      const post = await PostService.getById(id, authorId);
+      const post = await PostsService.getById(id, authorId);
 
       res.json(post);
     } catch (error) {
@@ -52,7 +52,7 @@ class PostsController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      const removedPostData = await PostService.remove(id, userId);
+      const removedPostData = await PostsService.remove(id, userId);
 
       res.json(removedPostData);
     } catch (error) {
