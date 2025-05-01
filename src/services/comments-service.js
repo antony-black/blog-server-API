@@ -34,9 +34,9 @@ class CommentsService {
       throw ApiError.NotFound("Comment not found.");
     }
 
-    if (comment.userId !== authorId) {
-      throw ApiError.Forbidden("You have access to remove only your comments.");
-    }
+    // if (comment.userId !== authorId) {
+    //   throw ApiError.Forbidden("You have access to remove only your comments.");
+    // }
 
     const commentData = await prisma.comment.delete({ where: { id } });
 
