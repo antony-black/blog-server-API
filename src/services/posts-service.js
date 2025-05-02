@@ -6,7 +6,7 @@ class PostsService {
     if (!content || content.trim().length === 0) {
       throw ApiError.BadRequest("Content is required.");
     }
-    
+
     const post = await prisma.post.create({
       data: {
         content,
@@ -21,8 +21,26 @@ class PostsService {
     const posts = await prisma.post.findMany({
       include: {
         likes: true,
-        author: true,
-        comments: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatarUrl: true,
+            email: true,
+          },
+        },
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatarUrl: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -43,11 +61,25 @@ class PostsService {
       include: {
         comments: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                avatarUrl: true,
+                email: true,
+              },
+            },
           },
         },
         likes: true,
-        author: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatarUrl: true,
+            email: true,
+          },
+        },
       },
     });
 
@@ -62,8 +94,6 @@ class PostsService {
 
     return postWithLikeInfo;
   }
-
-  // async edit() {}
 
   async remove(id, userId) {
     const post = await prisma.post.findUnique({
