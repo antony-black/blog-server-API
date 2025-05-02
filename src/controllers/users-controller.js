@@ -3,7 +3,6 @@ const { UsersService } = require("../services");
 class UsersController {
   async registration(req, res, next) {
     try {
-      // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
       const { name, email, password } = req.body;
       const user = await UsersService.registration(name, email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -15,7 +14,6 @@ class UsersController {
 
   async login(req, res, next) {
     try {
-      // TODO: here is the visible password in the http. Figure out how to make it hashed or invisible
       const { email, password } = req.body;
       const user = await UsersService.login(email, password);
       // res.cookie("refreshToken", user.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
