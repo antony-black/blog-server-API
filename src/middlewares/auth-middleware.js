@@ -7,28 +7,21 @@ module.exports = async function (req, res, next) {
   try {
     const authorizationHeader = req.headers.authorization;
 
-    console.log("Incoming Authorization:", authorizationHeader);
-
     if (!authorizationHeader) {
-      console.log('ERROR-1');
       return next(ApiError.UnautorizedError());
     }
-    console.log('ERROR-2');
+
     const accessToken = authorizationHeader.split(' ')[1];
     if (!accessToken) {
-      console.log('ERROR-3');
       return next(ApiError.UnautorizedError());
     }
-    console.log('ERROR-4');
-    const userData = TokensService.validateAccessToken(accessToken);
 
-    console.log("Decoded user:", userData);
+    const userData = TokensService.validateAccessToken(accessToken);
     
     if (!userData) {
-      console.log('ERROR-5');
       return next(ApiError.UnautorizedError());
     }
-    console.log('ERROR-6');
+
     const user = await prisma.user.findUnique({
       where: {id : userData.id}
     });
@@ -38,7 +31,6 @@ module.exports = async function (req, res, next) {
     }
 
     const publicUserData = new UserDto(user);
-
     req.user = publicUserData;
 
     next();

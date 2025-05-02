@@ -25,7 +25,6 @@ class UsersController {
 
   async getById(req, res, next) {
     try {
-      console.log("Authenticated user:", req.user);
       const { id } = req.params;
       const userId = req.user.id;
 
@@ -39,7 +38,6 @@ class UsersController {
 
   async update(req, res, next) {
     try {
-      console.log("Authenticated user:", req.user);
       const data = req.body;
       const file = req.file;
       const { id } = req.params;
@@ -54,7 +52,6 @@ class UsersController {
 
   async current(req, res, next) {
     try {
-      console.log("Authenticated user:", req.user);
       await UsersService.current(req, res);
     } catch (error) {
       next(error);

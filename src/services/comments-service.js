@@ -25,7 +25,7 @@ class CommentsService {
   //   }
   // }
 
-  async remove(id, authorId) {
+  async remove(id) {
     const comment = await prisma.comment.findUnique({
       where: { id },
     });
@@ -33,10 +33,6 @@ class CommentsService {
     if (!comment) {
       throw ApiError.NotFound("Comment not found.");
     }
-
-    // if (comment.userId !== authorId) {
-    //   throw ApiError.Forbidden("You have access to remove only your comments.");
-    // }
 
     const commentData = await prisma.comment.delete({ where: { id } });
 

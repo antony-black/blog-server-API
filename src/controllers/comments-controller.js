@@ -24,9 +24,8 @@ class CommentsController {
   async remove(req, res, next) {
     try {
       const { id } = req.params;
-      const authorId = req.user.id;
 
-      const removedCommentData = await CommentsService.remove(id, authorId);
+      const removedCommentData = await CommentsService.remove(id);
 
       res.json(removedCommentData);
     } catch (error) {
