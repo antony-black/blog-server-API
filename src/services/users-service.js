@@ -3,8 +3,10 @@ const bcrypt = require("bcryptjs");
 const jdenticon = require("jdenticon");
 const path = require("path");
 const fs = require("fs");
+
 const TokensService = require("./tokens-service");
 const UserDto = require("../dtos/user-dto");
+const ExpandedUserDto = require("../dtos/expanded-user-dto");
 const ApiError = require("../exceptions/api-error");
 
 class UsersService {
@@ -78,7 +80,7 @@ class UsersService {
       },
     });
 
-    const publicUserData = new UserDto(user);
+    const publicUserData = new ExpandedUserDto(user);
 
     return {
       ...publicUserData,
@@ -86,46 +88,45 @@ class UsersService {
     };
   }
 
-async update(data, file, id) {
-  const updates = {};
+  async update(data, file, id) {
+    const updates = {};
 
-  // Handle safe fields
-  if (data.name) updates.name = data.name;
-  if (data.email) {
-    const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
-    if (existingUser && existingUser.id !== id) {
-      throw ApiError.BadRequest(`Email ${data.email} is already in use.`);
+    // Handle safe fields
+    if (data.name) updates.name = data.name;
+    if (data.email) {
+      const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
+      if (existingUser && existingUser.id !== id) {
+        throw ApiError.BadRequest(`Email ${data.email} is already in use.`);
+      }
+      updates.email = data.email;
     }
-    updates.email = data.email;
-  }
-  if (data.bio) updates.bio = data.bio;
-  if (data.location) updates.location = data.location;
+    if (data.bio) updates.bio = data.bio;
+    if (data.location) updates.location = data.location;
 
-  // Date validation
-  if (data.dateOfBirth) {
-    const parsedDate = new Date(data.dateOfBirth);
-    if (isNaN(parsedDate)) {
-      throw ApiError.BadRequest("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
+    // Date validation
+    if (data.dateOfBirth) {
+      const parsedDate = new Date(data.dateOfBirth);
+      if (isNaN(parsedDate)) {
+        throw ApiError.BadRequest("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
+      }
+      updates.dateOfBirth = parsedDate;
     }
-    updates.dateOfBirth = parsedDate;
+
+    // Handle file upload
+    if (file && file.path) {
+      updates.avatarUrl = `/uploads/${file.filename}`;
+    }
+
+    // Final update
+    const user = await prisma.user.update({
+      where: { id },
+      data: updates,
+    });
+
+    const publicUserData = new ExpandedUserDto(user);
+
+    return publicUserData;
   }
-
-  // Handle file upload
-  if (file && file.path) {
-    updates.avatarUrl = `/${file.path}`;
-  }
-
-  // Final update
-  const user = await prisma.user.update({
-    where: { id },
-    data: updates,
-  });
-
-  const publicUserData = new UserDto(user);
-
-  return publicUserData;
-}
-
 
   async current(req, res) {
     const user = await prisma.user.findUnique({
