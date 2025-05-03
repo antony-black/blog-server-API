@@ -8,7 +8,7 @@ class LikesService {
     });
 
     if (isLikeAdded) {
-      throw ApiError.BadRequest("You have been already liked this post.");
+      throw ApiError.BadRequest("You have already liked this post.");
     }
 
     const like = await prisma.like.create({
