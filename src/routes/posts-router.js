@@ -1,13 +1,16 @@
 const express = require("express");
-const router = express.Router();
 
 const { PostsController } = require("../controllers");
 const authMiddleware = require("../middlewares/auth-middleware");
+const endpointPaths = require("../constants/enpoint-paths/index");
 
-router.post("/create", authMiddleware, PostsController.create);
-router.get("/", authMiddleware, PostsController.getAll);
-router.get("/:id", authMiddleware, PostsController.getById);
+const router = express.Router();
+const postsRoutes = endpointPaths.posts;
+
+router.post(postsRoutes.create, authMiddleware, PostsController.create);
+router.get(postsRoutes.getAll, authMiddleware, PostsController.getAll);
+router.get(postsRoutes.getById, authMiddleware, PostsController.getById);
 // router.put("/edit/:id", authMiddleware, PostController.edit);
-router.delete("/remove/:id", authMiddleware, PostsController.remove);
+router.delete(postsRoutes.remove, authMiddleware, PostsController.remove);
 
 module.exports = router;

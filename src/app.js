@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const fs = require("fs");
 
-const routesPaths = require("./constants/routes-paths/index");
+const routesPaths = require("./constants/api-paths/index");
 const { 
   usersRouter, 
   postsRouter, 

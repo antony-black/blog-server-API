@@ -1,10 +1,13 @@
 const express = require("express");
-const router = express.Router();
 
 const { LikesController } = require("../controllers");
 const authMiddleware = require("../middlewares/auth-middleware");
+const endpointPaths = require("../constants/enpoint-paths/index");
 
-router.post("/add", authMiddleware, LikesController.add);
-router.delete("/remove/:id", authMiddleware, LikesController.remove);
+const router = express.Router();
+const likesRoutes = endpointPaths.likes;
+
+router.post(likesRoutes.add, authMiddleware, LikesController.add);
+router.delete(likesRoutes.add, authMiddleware, LikesController.remove);
 
 module.exports = router;
