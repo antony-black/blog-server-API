@@ -1,5 +1,7 @@
 const { prisma } = require("../../prisma/prisma-client");
+
 const ApiError = require("../exceptions/api-error");
+const errorMessages = require('../constants/error-messages/index');
 
 class LikesService {
   async add(postId, userId) {
@@ -8,7 +10,7 @@ class LikesService {
     });
 
     if (isLikeAdded) {
-      throw ApiError.BadRequest("You have already liked this post.");
+      throw ApiError.BadRequest(errorMessages.LIKES.ALREADY_LIKED);
     }
 
     const like = await prisma.like.create({
@@ -24,7 +26,7 @@ class LikesService {
     });
 
     if (!isLikeAdded) {
-      throw ApiError.NotFound("The like hasn't already existed.");
+      throw ApiError.NotFound(errorMessages.LIKES.NOT_FOUND);
     }
 
     const likeData = await prisma.like.deleteMany({

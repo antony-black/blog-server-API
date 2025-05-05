@@ -1,10 +1,12 @@
 const { prisma } = require("../../prisma/prisma-client");
+
 const ApiError = require("../exceptions/api-error");
+const errorMessages = require('../constants/error-messages/index');
 
 class FollowsService {
   async follow(followingId, userId) {
     if (followingId === userId) {
-      throw ApiError.BadRequest("You can't follow yourself.");
+      throw ApiError.BadRequest(errorMessages.FOLLOWS.SELF_FOLLOW);
     }
 
     const hasSubscription = await prisma.follows.findFirst({
@@ -17,7 +19,7 @@ class FollowsService {
     });
 
     if (hasSubscription) {
-      throw ApiError.BadRequest("You have already subscribed on this account.");
+      throw ApiError.BadRequest(errorMessages.FOLLOWS.ALREADY_FOLLOWED);
     }
 
     const followingData = await prisma.follows.create({
@@ -41,7 +43,7 @@ class FollowsService {
     });
 
     if (!hasFollowing) {
-      throw ApiError.NotFound("Subscription hasn't found.")
+      throw ApiError.NotFound(errorMessages.FOLLOWS.NOT_FOUND)
     }
 
     const followingData = await prisma.follows.delete({

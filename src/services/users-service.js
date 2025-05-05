@@ -8,6 +8,7 @@ const TokensService = require("./tokens-service");
 const UserDto = require("../dtos/user-dto");
 const ExpandedUserDto = require("../dtos/expanded-user-dto");
 const ApiError = require("../exceptions/api-error");
+const errorMessages = require("../constants/error-messages/index");
 
 class UsersService {
   async registration(name, email, password) {
@@ -16,7 +17,7 @@ class UsersService {
     });
 
     if (user) {
-      throw ApiError.BadRequest("User with this email has already existed. Please, login.");
+      throw ApiError.BadRequest(errorMessages.AUTH.EMAIL_IN_USE);
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -51,7 +52,7 @@ class UsersService {
     const hasTheSamePassword = await bcrypt.compare(password, user.password);
 
     if (!user || !hasTheSamePassword) {
-      throw ApiError.BadRequest("Wrong email or password.");
+      throw ApiError.BadRequest(errorMessages.AUTH.WRONG_CREDENTIALS);
     }
 
     const userData = new UserDto(user);
@@ -71,7 +72,7 @@ class UsersService {
     });
 
     if (!user) {
-      throw ApiError.NotFound("No such user found. Please sign up.");
+      throw ApiError.NotFound(errorMessages.AUTH.NOT_FOUND);
     }
 
     const isFollowing = await prisma.follows.findFirst({
@@ -96,7 +97,7 @@ class UsersService {
     if (data.email) {
       const existingUser = await prisma.user.findFirst({ where: { email: data.email } });
       if (existingUser && existingUser.id !== id) {
-        throw ApiError.BadRequest(`Email ${data.email} is already in use.`);
+        throw ApiError.BadRequest(errorMessages.AUTH.EMAIL_IN_USE);
       }
       updates.email = data.email;
     }
@@ -107,7 +108,7 @@ class UsersService {
     if (data.dateOfBirth) {
       const parsedDate = new Date(data.dateOfBirth);
       if (isNaN(parsedDate)) {
-        throw ApiError.BadRequest("Invalid date format for dateOfBirth. Use YYYY-MM-DD.");
+        throw ApiError.BadRequest(errorMessages.COMMON.INVALID_DATE);
       }
       updates.dateOfBirth = parsedDate;
     }

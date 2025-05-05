@@ -1,10 +1,12 @@
 const { prisma } = require("../../prisma/prisma-client");
+
 const ApiError = require("../exceptions/api-error");
+const errorMessages = require('../constants/error-messages/index');
 
 class PostsService {
   async create(content, authorId) {
     if (!content || content.trim().length === 0) {
-      throw ApiError.BadRequest("Content is required.");
+      throw ApiError.BadRequest(errorMessages.POSTS.EMPTY_CONTENT);
     }
 
     const post = await prisma.post.create({
@@ -84,7 +86,7 @@ class PostsService {
     });
 
     if (!post) {
-      throw ApiError.NotFound("Post not found!");
+      throw ApiError.NotFound(errorMessages.POSTS.NOT_FOUND);
     }
 
     const postWithLikeInfo = {
@@ -101,11 +103,11 @@ class PostsService {
     });
 
     if (!post) {
-      throw ApiError.NotFound("Post not found!");
+      throw ApiError.NotFound(errorMessages.POSTS.NOT_FOUND);
     }
 
     if (post.authorId !== userId) {
-      throw ApiError.Forbidden("You have access to remove only your posts.");
+      throw ApiError.Forbidden(errorMessages.POSTS.DELETE_FORBIDDEN);
     }
 
     const postData = await prisma.$transaction([
