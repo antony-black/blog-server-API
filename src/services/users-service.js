@@ -25,7 +25,7 @@ class UsersService {
 
     const avatarImage = jdenticon.toPng(name, 200);
     const avatarName = `${name}_${Date.now()}.png`;
-    const avatarPath = path.join(__dirname, "../uploads", avatarName);
+    const avatarPath = path.resolve("uploads", avatarName);
     fs.writeFileSync(avatarPath, avatarImage);
 
     const newUser = await prisma.user.create({
